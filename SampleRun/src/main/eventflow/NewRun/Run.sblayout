@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><application-layout>
+    <component name="InputStream">
+        <param name="gui:x" value="-271"/>
+        <param name="gui:y" value="-189"/>
+    </component>
+    <component name="JDBCTable">
+        <param name="gui:x" value="-722"/>
+        <param name="gui:y" value="58"/>
+        <param name="gui:width" value="150"/>
+        <param name="gui:height" value="70"/>
+    </component>
+    <component name="QueryTable">
+        <param name="gui:x" value="-537"/>
+        <param name="gui:y" value="-204"/>
+        <param name="gui:width" value="150"/>
+        <param name="gui:height" value="70"/>
+    </component>
+    <component name="EMSConsumer">
+        <param name="gui:x" value="-627"/>
+        <param name="gui:y" value="-57"/>
+    </component>
+    <component name="Map">
+        <param name="gui:x" value="-85"/>
+        <param name="gui:y" value="-189"/>
+    </component>
+    <component name="Map2">
+        <param name="gui:x" value="-525"/>
+        <param name="gui:y" value="-59"/>
+    </component>
+    <component name="MapCopy">
+        <param name="gui:x" value="-85"/>
+        <param name="gui:y" value="-91"/>
+    </component>
+    <component name="MapCopy2">
+        <param name="gui:x" value="-77"/>
+        <param name="gui:y" value="0"/>
+    </component>
+    <component name="MapCopy3">
+        <param name="gui:x" value="-77"/>
+        <param name="gui:y" value="104"/>
+    </component>
+    <component name="Merge">
+        <param name="gui:x" value="103"/>
+        <param name="gui:y" value="-64"/>
+    </component>
+    <component name="Split">
+        <param name="gui:x" value="-216"/>
+        <param name="gui:y" value="-59"/>
+    </component>
+    <component name="XMLtoTupleConverter">
+        <param name="gui:x" value="-397"/>
+        <param name="gui:y" value="27"/>
+    </component>
+    <component name="OutputStream">
+        <param name="gui:x" value="264"/>
+        <param name="gui:y" value="-57"/>
+    </component>
+</application-layout>

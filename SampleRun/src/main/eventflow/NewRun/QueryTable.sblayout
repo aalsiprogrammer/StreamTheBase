@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><application-layout>
+    <component name="InputStream">
+        <param name="gui:x" value="-1204"/>
+        <param name="gui:y" value="137"/>
+    </component>
+    <component name="StockData">
+        <param name="gui:x" value="-1214"/>
+        <param name="gui:y" value="-58"/>
+    </component>
+    <component name="QueryTable">
+        <param name="gui:x" value="-1102"/>
+        <param name="gui:y" value="50"/>
+        <param name="gui:width" value="80"/>
+        <param name="gui:height" value="56"/>
+    </component>
+    <component name="Query">
+        <param name="gui:x" value="-1092"/>
+        <param name="gui:y" value="-59"/>
+    </component>
+    <component name="Query2">
+        <param name="gui:x" value="-1091"/>
+        <param name="gui:y" value="152"/>
+    </component>
+    <component name="OutputStream">
+        <param name="gui:x" value="-965"/>
+        <param name="gui:y" value="-59"/>
+    </component>
+    <component name="OutputStream2">
+        <param name="gui:x" value="-978"/>
+        <param name="gui:y" value="153"/>
+    </component>
+</application-layout>

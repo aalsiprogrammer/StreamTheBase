@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modify version="10.4.4_1fdffe2e2394aff79d1eba1a3b2e83bfcee239ac">
+    <add>
+        <annotations>
+            <annotation name="hygienic"/>
+        </annotations>
+        <type-metadata>
+            <param name="type" value="module"/>
+            <param name="fully-qualified-name" value="NewRun.QueryTable"/>
+        </type-metadata>
+        <memory-model-settings/>
+        <dynamic-variables/>
+        <data name="QueryTable" shared="false" source="concrete" type="querytable">
+            <param name="storage-method" value="heap"/>
+            <param name="replicated" value="false"/>
+            <table-schema>
+                <schema>
+                    <field name="symbol" type="string"/>
+                    <field name="price" type="long"/>
+                    <field name="quantity" type="double"/>
+                </schema>
+                <primary-index type="btree">
+                    <field name="symbol"/>
+                </primary-index>
+            </table-schema>
+            <param name="truncate" value="false"/>
+            <preload format="csv" mode="empty"/>
+        </data>
+        <stream name="InputStream">
+            <schema/>
+        </stream>
+        <stream name="StockData">
+            <schema>
+                <field name="symbol" type="string"/>
+                <field name="price" type="long"/>
+                <field name="quantity" type="double"/>
+            </schema>
+        </stream>
+        <box name="Query" type="query">
+            <input port="1" stream="StockData"/>
+            <output port="1" stream="OutputStream"/>
+            <dataref id="querytable" name="QueryTable"/>
+            <param name="operation" value="write"/>
+            <param name="where" value="primary-key"/>
+            <param name="key-field.0" value="symbol"/>
+            <param name="key-value.0" value="input1.symbol"/>
+            <param name="write-type" value="insert"/>
+            <param name="if-write-fails" value="update"/>
+            <param name="no-match-mode" value="output-no-match-null"/>
+            <param name="order-by-direction" value="none"/>
+            <target-list>
+                <item name="input" selection="none"/>
+                <item name="old" selection="none"/>
+                <item name="new" selection="all"/>
+                <item name="current" selection="none"/>
+                <expressions>
+                    <include field="Prod">input1.price * input1.quantity</include>
+                </expressions>
+            </target-list>
+            <target-list name="insert">
+                <item name="input" selection="all"/>
+            </target-list>
+            <target-list name="update">
+                <item name="input" selection="none"/>
+                <expressions>
+                    <set field="price">coalesce(input1.price,old.price)</set>
+                    <set field="quantity">if(input1.price == old.price) then input1.quantity+old.quantity else input1.quantity</set>
+                </expressions>
+            </target-list>
+            <target-list name="no-match">
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <box name="Query2" type="query">
+            <input port="1" stream="InputStream"/>
+            <output port="1" stream="OutputStream2"/>
+            <dataref id="querytable" name="QueryTable"/>
+            <param name="operation" value="read"/>
+            <param name="where" value="all-rows"/>
+            <param name="write-type" value="insert"/>
+            <param name="if-write-fails" value="ignore"/>
+            <param name="no-match-mode" value="output-no-match-null"/>
+            <param name="order-by-direction" value="none"/>
+            <target-list>
+                <item name="input" selection="none"/>
+                <item name="current" selection="all"/>
+                <item name="old" selection="none"/>
+            </target-list>
+            <target-list name="insert">
+                <item name="input" selection="all"/>
+            </target-list>
+            <target-list name="update">
+                <item name="input" selection="all"/>
+            </target-list>
+            <target-list name="no-match">
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <output-stream name="OutputStream"/>
+        <output-stream name="OutputStream2"/>
+    </add>
+</modify>

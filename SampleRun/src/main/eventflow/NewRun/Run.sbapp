@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modify version="10.4.4_1fdffe2e2394aff79d1eba1a3b2e83bfcee239ac">
+    <add>
+        <annotations>
+            <annotation name="hygienic"/>
+        </annotations>
+        <type-metadata>
+            <param name="type" value="module"/>
+            <param name="fully-qualified-name" value="NewRun.Run"/>
+        </type-metadata>
+        <memory-model-settings/>
+        <dynamic-variables/>
+        <data name="JDBCTable" type="jdbctable"/>
+        <data name="QueryTable" shared="false" source="concrete" type="querytable">
+            <param name="storage-method" value="heap"/>
+            <param name="replicated" value="false"/>
+            <table-schema>
+                <schema/>
+                <primary-index type="btree"/>
+            </table-schema>
+            <param name="truncate" value="false"/>
+            <preload format="csv" mode="empty"/>
+        </data>
+        <stream name="InputStream">
+            <schema>
+                <field name="UnnamedField1" type="string"/>
+                <field name="UnnamedField2" type="string"/>
+                <field name="UnnamedField3" type="string"/>
+            </schema>
+        </stream>
+        <box name="EMSConsumer" type="java">
+            <output port="1" stream="out:EMSConsumer_1"/>
+            <param name="start:state" value="true"/>
+            <param name="javaclass" value="com.streambase.sb.adapter.jms2.EMSConsumer"/>
+            <param name="connectOnStartup" value="true"/>
+            <param name="destinationName" value="SampleProject.queue"/>
+            <param name="destinationType" value="Preconfigured"/>
+            <param name="enableStatusPort" value="false"/>
+            <param name="jmsBodySchema" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;schema&gt;&#13;&#10;    &lt;field name=&quot;Text&quot; type=&quot;string&quot;/&gt;&#13;&#10;&lt;/schema&gt;&#13;&#10;"/>
+            <param name="jmsPropertiesSchema" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;schema/&gt;&#13;&#10;"/>
+            <param name="logLevel" value="INFO"/>
+            <param name="maxMsgsInFlight" value=""/>
+            <param name="serverName" value="Server2"/>
+            <param name="synchronousOperation" value="false"/>
+        </box>
+        <box name="Map2" type="map">
+            <input port="1" stream="out:EMSConsumer_1"/>
+            <output port="1" stream="out:Map2_1"/>
+            <target-list>
+                <item name="input" selection="none"/>
+                <expressions>
+                    <include field="Text">input1.Text</include>
+                </expressions>
+            </target-list>
+        </box>
+        <box name="Split" type="split">
+            <input port="1" stream="InputStream"/>
+            <output port="1" stream="out:Split_1"/>
+            <output port="2" stream="out:Split_2"/>
+            <output port="3" stream="out:Split_3"/>
+            <output port="4" stream="out:Split_4"/>
+            <param name="output-count" value="4"/>
+        </box>
+        <box name="Map" type="map">
+            <input port="1" stream="out:Split_1"/>
+            <output port="1" stream="out:Map_1"/>
+            <target-list>
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <box name="MapCopy" type="map">
+            <input port="1" stream="out:Split_2"/>
+            <output port="1" stream="out:MapCopy_1"/>
+            <target-list>
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <box name="MapCopy2" type="map">
+            <input port="1" stream="out:Split_3"/>
+            <output port="1" stream="out:MapCopy2_1"/>
+            <target-list>
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <box name="MapCopy3" type="map">
+            <input port="1" stream="out:Split_4"/>
+            <output port="1" stream="out:MapCopy3_1"/>
+            <target-list>
+                <item name="input" selection="all"/>
+            </target-list>
+        </box>
+        <box name="XMLtoTupleConverter" type="java">
+            <input port="1" stream="out:Map2_1"/>
+            <output port="1" stream="out:XMLtoTupleConverter_1"/>
+            <output port="2" stream="out:XMLtoTupleConverter_2"/>
+            <param name="start:state" value="true"/>
+            <param name="javaclass" value="com.streambase.sb.operator.xmltuple.XML2Tuple"/>
+            <param name="AssumeLocalTimeZone" value="false"/>
+            <param name="AttributeValuesFieldName" value="_ATTRIBUTES"/>
+            <param name="AttributeValuesSupported" value="true"/>
+            <param name="DateTimeFormat" value="yyyy-MM-dd HH:mm:ss.SSSZ"/>
+            <param name="ElementValueFieldName" value="_VALUE"/>
+            <param name="EnableStatusPort" value="true"/>
+            <param name="IncludeNullListValues" value="true"/>
+            <param name="NullListValueRepresentation" value="null"/>
+            <param name="OutputSchema" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;schema/&gt;&#13;&#10;"/>
+            <param name="XMLField" value=""/>
+            <param name="logLevel" value="INFO"/>
+            <param name="namespaceFieldSeparator" value=":"/>
+            <param name="passThroughFields" value="false"/>
+            <param name="useNamespaces" value="false"/>
+            <param name="xsltFilename" value=""/>
+        </box>
+        <box name="Merge" type="merge">
+            <input port="1" stream="out:Map_1"/>
+            <input port="2" stream="out:MapCopy_1"/>
+            <input port="3" stream="out:MapCopy2_1"/>
+            <input port="4" stream="out:MapCopy3_1"/>
+            <output port="1" stream="OutputStream"/>
+            <param name="order-on" value="UnnamedField1"/>
+        </box>
+        <output-stream name="OutputStream"/>
+    </add>
+</modify>
