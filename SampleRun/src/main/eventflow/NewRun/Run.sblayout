@@ -10,10 +10,10 @@
         <param name="gui:height" value="70"/>
     </component>
     <component name="QueryTable">
-        <param name="gui:x" value="-537"/>
-        <param name="gui:y" value="-204"/>
-        <param name="gui:width" value="150"/>
-        <param name="gui:height" value="70"/>
+        <param name="gui:x" value="-488"/>
+        <param name="gui:y" value="-177"/>
+        <param name="gui:width" value="80"/>
+        <param name="gui:height" value="56"/>
     </component>
     <component name="EMSConsumer">
         <param name="gui:x" value="-627"/>
